@@ -1,0 +1,302 @@
+*{
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  overflow: hidden;
+}
+
+.info-group{
+  color: blue;
+  font-size: 20pt;
+  align-items: center;
+  display: block;
+}
+
+.input-group{
+  font-size: 14pt;
+  display: block;
+  padding: 3pt;
+}
+
+label {
+  display: block;
+  font-weight: bold;
+  margin-bottom: 5px;
+}
+
+input:focus+label{
+  transform: translateY(-25px);
+  color:rgb(0, 86, 179);
+  display: block;
+  font-weight: bold;
+  margin-bottom: 5px;
+}
+
+ 
+input[type="text"], input[type="password"] {
+  width: 100%;
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  font-size: 16px;
+}
+
+button {
+  padding: 10px;
+  background-color: #007bff;
+  color: #fff;
+  border: none;
+  border-radius: 5px;
+  font-size: 16px;
+  font-family: 'Avenir', sans-serif;
+  cursor: pointer;
+}
+
+button:hover {
+  background-color: #0056b3;
+}
+
+.container {
+  display: grid;
+  grid-template-rows: 80px auto 1fr auto 50px;
+  grid-template-columns: 1fr 4fr 1fr;
+  height: 100vh;
+  grid-template-areas:
+    "header        header        header"
+    "left-aside    banner        right-aside"
+    "left-aside    main          right-aside"
+    "left-aside    low-content   right-aside"
+    "footer        footer        footer";
+  grid-gap: 10px;  padding: 10px;
+  font-weight: 600;  font-size: 20px;
+}
+
+.header {
+  grid-area: header;
+  padding: 20px;
+  text-align: center;
+}
+
+.left-aside {
+  grid-area: left-aside;
+  padding: 20px;
+}
+
+.main {
+  grid-area: main;
+  padding: 20px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.banner {
+  grid-area: banner;
+  padding: 20px;
+  text-align: center;
+}
+
+.right-aside {
+  grid-area: right-aside;
+  padding: 20px;
+}
+
+.low-content {
+  grid-area: low-content;
+  padding: 20px;
+}
+
+.footer {
+  grid-area: footer;
+  padding: 20px;
+  text-align: center;
+}
+
+
+.login-content {
+  background-color: #fff;
+  padding: 20px;
+  border-radius: 10px;
+  box-shadow: 0 4px 8px rgba(104, 181, 198, 0.1);
+  width: 400px;
+}
+
+.form-group {
+  margin-bottom: 15px;
+}
+
+@media (max-width: 760px) {
+  .container {
+    display: flex;
+    flex-direction: column;
+    padding: 1rem;
+    gap: 1rem;
+    grid-template-rows: 50px 50px 50px 1fr 50px 50px 50px;
+    grid-template-columns: 1fr;
+    grid-template-areas:
+      "header"
+      "banner"
+      "left-aside"
+      "main"
+      "right-aside"
+      "low-content"
+      "footer";
+}
+.input-group {
+  display: flex;
+  flex-direction: column;
+}
+
+input[type="text"],
+input[type="password"] {
+  width: 70%;
+  padding: 0.5rem;
+  font-size: 1rem;
+}
+
+label {
+  margin-bottom: 0.3rem;
+  font-weight: 500;
+  font-size: 1rem;
+}
+
+.btn-login {
+  width: 70%;
+  padding: 0.6rem;
+  font-size: 1rem;
+  background-color: #007bff;
+  border: none;
+  color: white;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.btn-login:hover {
+  background-color: #0056b3;
+}
+
+h2 {
+  font-size: 1.5rem;
+  color: #003cff;
+}
+}
+
+/* Header layout */
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background: #345d9d;
+  color: white;
+  padding: 1rem;
+  position: relative;
+  z-index: 1000;
+}
+
+.header-title {
+  font-size: 1.2rem;
+}
+
+.header-actions {
+  display: flex;
+  gap: 1rem;
+}
+
+.toggle-btn {
+  background-color: green;
+  color: white;
+  padding: 8px 12px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.toggle-btn:hover {
+  cursor: pointer;
+  background-color: darkgreen;
+}
+
+.logout-btn {
+  background-color: red;       /* Fondo rojo */
+  color: white;                /* Texto blanco */
+  padding: 10px 20px;          /* Espaciado interno para el botón */
+  border: none;                /* Sin bordes */
+  border-radius: 10px;          /* Bordes redondeados */
+  cursor: pointer;             /* Cambia el cursor a una mano */
+  font-size: 16px;       
+}
+
+.logout-btn:hover {
+  cursor: pointer;
+  background-color: darkred;
+}
+
+.sidebar {
+  position: fixed;
+  top: 70px;
+  left: 0;
+  height: 100vh;
+  background: #345d9d;
+  padding: 1rem;
+  transform: translateX(-100%);
+  transition: transform 0.5s ease;
+  z-index: 999;
+}
+
+.sidebar.open {
+  transform: translateX(0);
+  width: 280px;
+  color: white;
+
+}
+
+.sidebar.open a{
+  transform: translateX(0);
+  color: white;
+  font-size: 14pt;
+}
+
+.sidebar.open a:hover {
+  text-decoration: wavy;
+}
+
+.sidebar.open li {
+  margin-bottom: 0.5rem; 
+}
+
+.modal-backdrop {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.5);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+}
+
+.modal {
+  background: white;
+  padding: 2rem;
+  border-radius: 8px;
+  width: 500px;
+  text-align: center;
+}
+
+
+.form-group-table {
+  border-radius: 10px;  
+  overflow-y: scroll; 
+  padding: 20px;
+}
+
+.btn-registrar-pago{
+    background-color: green;
+}
+
+.btn-registrar-pago:hover{
+    background-color: darkgreen;
+}
