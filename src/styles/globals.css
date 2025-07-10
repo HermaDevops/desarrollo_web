@@ -300,3 +300,65 @@ h2 {
 .btn-registrar-pago:hover{
     background-color: darkgreen;
 }
+
+
+.table-auto {
+    width: 100%; /* O usa un valor mayor si quieres que ocupe más del espacio disponible */
+}
+
+th, td {
+    padding: 10px 20px; /* Añade más espacio dentro de las celdas */
+}
+
+select, textarea {
+    width: 100%; /* Hace que los selectores y las áreas de texto se expandan a lo largo de la celda */
+}
+
+
+table {
+    table-layout: fixed; /* Asegura que las columnas sean distribuidas proporcionalmente */
+    justify-content: center;
+    border-collapse: collapse; /* Colapsa los bordes para una mejor apariencia */
+    width: 100%; /* Ajusta el ancho de la tabla al 100% del contenedor */
+}
+
+th {
+    background-color: #cce7ff; /* Azul bajito para el encabezado */
+    padding: 10px; /* Añade un poco de espacio dentro de las celdas del encabezado */
+    border: 1px solid #d3d3d3; /* Contorno gris claro para el encabezado */
+    text-align: center; /* Centra el texto en los encabezados */
+}
+
+td {
+    padding: 5px; /* Añade espacio dentro de las celdas */
+    border: 1px solid #d3d3d3; /* Contorno gris claro para las celdas */
+    text-align: center; /* Centra el texto en las celdas */
+}
+
+tr:nth-child(even) {
+    background-color: #f9f9f9; /* Color de fondo gris claro para las filas pares */
+}
+
+tr:nth-child(odd) {
+    background-color: #ffffff; /* Color de fondo blanco para las filas impares */
+}
+
+
+/* Botón Ver */
+.btn-ver, .btn-retenciones {
+    background-color: #345d9d;;
+    color: rgb(241,242,242);
+}
+
+.btn-ver:hover {
+    background-color: #345d9d;;
+}
+
+/* Botón Ingresar */
+.btn-ingresar {
+    background-color: #ccffcc;
+    color: #006600;
+}
+.btn-ingresar:hover {
+    background-color: #30dc30;
+}
