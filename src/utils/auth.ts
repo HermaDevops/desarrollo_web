@@ -34,7 +34,6 @@ export function obtenerBaseyClave(empresa: string): {db: string, pwd: string}{
   };
   
   const clave = alias[empresa] || empresa;
-  console.log('Cambios')
 
   const dbs: Record<string, { db: string; pwd: string }> = {
     Hermaprove: {
