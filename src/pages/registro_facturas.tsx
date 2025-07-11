@@ -1,53 +1,68 @@
 'use-client';
 import { useState } from 'react';
 import { useRouter } from "next/router";
+import Cookies from 'js-cookie';
+
+const token = Cookies.get('token');
 
 type Props = {
   invoices : Record<string, any>[];
   cuentasContables: { code: string; value: string }[];
   centrosCostos: { code: string; value: string }[];
   codigosRetenncion: string;
+  empresa: string,
   error?: string | null;
 };
 
-export default function registroFacturasPage({ invoices, cuentasContables, centrosCostos, error }: Props) {
+export default function registroFacturasPage({ invoices, cuentasContables, centrosCostos, empresa, error }: Props) {
   const [fechaBusqueda, setFechaBusqueda] = useState('');
   const router = useRouter();
   const [filaActiva, setFilaActiva] = useState<string | null>(null);
   const [loadingFila, setLoadingFila] = useState<string | null>(null);
   const [retencionesPorFila, setRetencionesPorFila] = useState<Record<string, any[]>>({});
 
+
   const handleSubmit = (e: { preventDefault: () => void; }) => {
   e.preventDefault(); // evita recargar la página
 
-  // Redirigir o hacer algo con la fecha
   if (fechaBusqueda) {
     router.push(`/registro_facturas?fecha=${fechaBusqueda}`);
     setFechaBusqueda(fechaBusqueda)
   }
   };
 
-  const obtenerRetenciones = async (ruc: string, facturaId: string) => {
-    console.log('buscando', ruc);
-    setLoadingFila(facturaId);
+  const obtenerRetenciones = async (ruc: string, facturaId: string, empresa: string) => {
+    try {
+      setLoadingFila(facturaId); // muestra "Cargando..."
+      
+      const res = await fetch(`/api/retenciones?ruc=${ruc}&facturaId=${facturaId}&empresa=${empresa}`);
+      const data = await res.json();
 
-    // Simula carga (reemplaza con fetch real si hace falta)
-    await new Promise((resolve) => setTimeout(resolve, 1000));
+      if (!res.ok) {
+        throw new Error(data.error || 'Error al obtener retenciones');
+      }
 
-    // Simulamos datos de retenciones
-    const retencionesMock = [
-      { WTCode: '001', WTName: 'Renta 1%' },
-      { WTCode: '002', WTName: 'IVA 30%' },
-    ];
+      // guardar retenciones por factura
+      setRetencionesPorFila((prev) => ({
+        ...prev,
+        [facturaId]: data.retenciones || [],
+      }));
 
-    // Actualizamos estado
-    setRetencionesPorFila((prev) => ({
-      ...prev,
-      [facturaId]: retencionesMock,
-    }));
-    setFilaActiva(facturaId);
-    setLoadingFila(null);
+      // activa esta fila para mostrar el <select>
+      setFilaActiva(facturaId);
+    } catch (error) {
+      console.error('Error:', error);
+    } finally {
+      setLoadingFila(null); // ocultar "Cargando..."
+    }
   };
+
+  
+  const verFactura = async (facturaNumber: string, issueDate: string, empresa: string) => {
+    const url = `/ver_facturas/${facturaNumber}/${issueDate}/${empresa}`
+    window.open(`/ver_facturas/${facturaNumber}_${issueDate}_${empresa}`, '_blank');
+
+};
 
 
 return(
@@ -115,35 +130,46 @@ return(
                   </select>
                 </td>
                 <td>
-              {loadingFila === factura.id && <span>Cargando...</span>}
+                  {loadingFila === factura.id && <span>Cargando...</span>}
 
-              {filaActiva !== factura.id ? (
-                <button
-                  className="btn-retenciones"
-                  onClick={() =>
-                    obtenerRetenciones(
-                      factura.supplier?.tax_identification || '',
-                      factura.id
-                    )
-                  }
-                >
-                  Ver Retenciones
-                </button>
-              ) : (
-                <select multiple size={5} className="codRetencion">
-                  {retencionesPorFila[factura.id]?.map((retencion) => (
-                    <option key={retencion.WTCode} value={retencion.WTCode}>
-                      {retencion.WTName}
-                    </option>
-                  ))}
-                </select>
-              )}
-            </td>
+                  {filaActiva !== factura.id ? (
+                    <button
+                      className="btn-retenciones"
+                      onClick={() =>
+                        obtenerRetenciones(
+                          factura.supplier?.tax_identification || '',
+                          factura.id,
+                          empresa
+                        )
+                      }
+                    >
+                      Ver Retenciones
+                    </button>
+                  ) : (
+                    <select
+                      multiple
+                      size={5}
+                      className="codRetencion"
+                      onChange={(e) => {
+                        const seleccionadas = Array.from(e.target.selectedOptions).map(
+                          (opt) => opt.value
+                        );
+                        console.log('Seleccionadas:', seleccionadas);
+                      }}
+                    >
+                      {retencionesPorFila[factura.id]?.map((retencion) => (
+                        <option key={retencion.WTCode} value={retencion.WTCode}>
+                          {retencion.WTName}
+                        </option>
+                      ))}
+                    </select>
+                  )}
+                </td>
                 <td>
                   <textarea className='comentario' placeholder="Comentario"></textarea>
                 </td>
                 <td>
-                  <button className='btn-ver'>Ver</button>
+                  <button className='btn-ver'  onClick={() => verFactura(factura.number, factura.issue_date, empresa)}>Ver</button>
                   <button className='btn-ingresar'>Ingresar</button>
                 </td>
               </tr>
@@ -203,6 +229,7 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
           invoices: invoices,
           cuentasContables: cuentasContables, 
           centrosCostos: centrosCostos,
+          empresa: user.enterprise,
           error: null
         }
       };
@@ -213,5 +240,9 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
         }
       };
     }
+}
+
+function jwtDecode(token: string): any {
+  throw new Error('Function not implemented.');
 }
 

@@ -362,3 +362,65 @@ tr:nth-child(odd) {
 .btn-ingresar:hover {
     background-color: #30dc30;
 }
+
+
+.contenedor {
+  max-width: 1200px;
+  margin: 0 auto;
+  background-color: white;
+  padding: 2rem;
+  overflow: auto;
+}
+
+html, body {
+  height: 100%;
+  overflow: auto;
+}
+
+.encabezado {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 2rem;
+}
+
+.texto-derecha {
+  text-align: right;
+}
+
+.tabla {
+  width: 100%;
+  margin-bottom: 2rem;
+  border-collapse: collapse;
+}
+
+.tabla th,
+.tabla td {
+  text-align: left;
+  padding: 0.5rem;
+  border-bottom: 1px solid #ddd;
+}
+
+.loading,
+.error {
+  padding: 2rem;
+  text-align: center;
+}
+
+.fila-info {
+  display: flex;
+  justify-content: space-between;
+  gap: 1rem;
+  padding: 0.5rem 0;
+}
+.fila-info span:first-child {
+  width: 40%; /* o usa min-width si prefieres */
+  font-weight: bold;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.fila-info span:last-child {
+  width: 60%;
+  white-space: normal; /* permite saltos de línea si es necesario */
+  word-break: break-word;
+}
