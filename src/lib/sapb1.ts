@@ -74,19 +74,6 @@ export class SAPBusinessOneClient {
   async _request(method: string, endpoint: string, params?: any) {
   const headers = this._getHeaders();
   const url = `https://10.0.1.215:50000/b1s/v1/${endpoint}`;
-    console.log('headers', headers)
-    console.log('url', url)
-    console.log('method', method, url, params, headers)
-    console.log('params', params)
-    console.log('headers', headers)
-
-    console.log('aaaa', this.axiosInstance.request({
-      method,
-      url,
-      data:'',
-      params,
-      headers
-    }))
   try {
     const response = await this.axiosInstance.request({
       method,
@@ -94,7 +81,6 @@ export class SAPBusinessOneClient {
       params,
       headers
     });
-    console.log('antesreur', response)
     return response.data;
   } catch (error: any) {
     console.error(`Error en request [${method} ${url}]:`, {
@@ -124,7 +110,6 @@ export class SAPBusinessOneClient {
   }
 
   async queryData(endpoint: string, queryParams: Record<string, any>): Promise<any> {
-    console.log("donde estoy: ", endpoint, queryParams)
   return this._request('GET', endpoint, queryParams);
 }
 
